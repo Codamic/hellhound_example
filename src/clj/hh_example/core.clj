@@ -1,4 +1,6 @@
 (ns hh-example.core
+  (:require
+   [hh-example.system :as system])
   (:gen-class))
 
 (defn -main

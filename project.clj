@@ -3,7 +3,13 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.8.0"]]
+  :dependencies [[org.clojure/clojure "1.9.0-alpha17"]
+                 [codamic/hellhound   "1.0.0-SNAPSHOT"]]
+
+  :resource-paths ["resources"]
+
+  :source-paths ["src/clj"]
+
   :main ^:skip-aot hh-example.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
