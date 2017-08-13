@@ -8,4 +8,4 @@
   "I don't do a whole lot ... yet."
   [& args]
   (hellhound/set-system! system/dev-system)
-  (println "Hello, World!"))
+  (hellhound/start!))
