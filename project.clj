@@ -12,4 +12,5 @@
 
   :main ^:skip-aot hh-example.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:dev {:dependencies []}
+             :uberjar {:aot :all}})
