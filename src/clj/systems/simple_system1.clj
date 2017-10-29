@@ -29,7 +29,7 @@
   (let [component1 (first (:dependencies context))
         ;; Gets the same component by it's name instead.
         component1-with-name (:simple-system/component-1 (:dependencies-map context))]
-    (println "Starting Component 1...")
+    (println "Starting Component 2...")
     ;; Use a value defined in component1
     (println (:something-in component1))
     (println (:something-in component1-with-name))
