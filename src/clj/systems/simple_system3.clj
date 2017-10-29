@@ -1,4 +1,4 @@
-(ns systems.simple-system2
+(ns systems.simple-system3
   (:require
    [manifold.stream :as s]
    [hellhound.system :as system :refer [defcomponent]]
@@ -18,11 +18,7 @@
   [component context]
   (let [input  (hcomp/input component)
         output (hcomp/output component)]
-
-    (s/consume (fn [x]
-                 (println "Message Component 1: " x)
-                 (s/put! output (inc x)))
-               input))
+    (s/connect input output))
   component)
 
 ;; Stop function of all the components. It should returns a component
@@ -35,25 +31,15 @@
 (defn start-fn2
   [component context]
   ;; Gets the input/output of the current component
-  (let [input (hcomp/input component)
-        output (hcomp/output component)]
-
-    ;; Connects input to output via an anonymous function which
-    ;; applies `inc` function to incoming values and dispatch them
-    ;; to the output
-    (s/connect-via input
-                   (fn [x]
-                     (println "Message Component 2: " x)
-                     (s/put! output (inc x)))
-                   output)
+  (let [input (hcomp/input component)]
+    (s/consume #(println "Odd: " %) input)
     component))
 
 ;; Start function of component-2.
 (defn start-fn3
   [component context]
   (let [input (hcomp/input component)]
-    ;; Simply consumes any incoming value and applies a function to that value
-    (s/consume #(println "Message Component 3: " %) input)
+    (s/consume #(println "Even: " %) input)
     component))
 
 ;; Defining all three components needed for this system to work. Please notice
@@ -75,8 +61,8 @@
 ;; Component 3 don't have any output stream. But it can have one.
 (def simple-system
   {:components [component-2 component-1 component-3]
-   :workflow [[:simple-system/component-1 :simple-system/component-2]
-              [:simple-system/component-2 :simple-system/component-3]]})
+   :workflow [[:simple-system/component-1 odd? :simple-system/component-2]
+              [:simple-system/component-1 even? :simple-system/component-3]]})
 
 ;; The main function of this namespace. You can run this
 ;; example by issuing following command:
