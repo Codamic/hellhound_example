@@ -13,21 +13,9 @@
                   #{{:host "localhost" :scheme :http :port 3000}
                     ["/" :get `routes/hello :route-name :home]})))
      ;;["/ws" :get [(routes/ws-interceptor (:input context) (:output context))] :route-name :ws]}))
-(defn default
-  [context]
-  (fn [req]
-    (let [matched (io.pedestal.http.route.router/find-route default-routes (assoc req :path-info (:uri req)))
-          matched-fn (:interceptors matched)]
-      (if matched
-        (do
-          (println "Returned: " (keys (io.pedestal.interceptor.chain/execute (assoc context :req req) matched-fn)))
-          (:response (io.pedestal.interceptor.chain/execute (assoc context :req req) matched-fn)))
-        {:status 404 :headers {} :body "Note found"}))))
-
-
 
 (def system
-  {:components [(web/factory default)]})
+  {:components [(web/factory default-routes)]})
 
 (defn main
   []
