@@ -8,7 +8,7 @@
    [manifold.stream :as s]))
 
 (def default-routes
-  (io.pedestal.http.route.map-tree/router
+  (routes/router
    (router/expand-routes
                   #{{:host "localhost" :scheme :http :port 3000}
                     ["/" :get `routes/hello :route-name :home]})))
