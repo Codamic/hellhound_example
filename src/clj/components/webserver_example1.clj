@@ -5,14 +5,15 @@
    [hellhound.components.webserver :as web]
    [hellhound.http.route :as routes]
    [hellhound.http.handlers :as handlers]
+   [hellhound.http.websocket :as ws]
    [manifold.stream :as s]))
 
 (def default-routes
   (routes/router
    (routes/expand-routes
                   #{{:host "localhost" :scheme :http :port 3000}
-                    ["/" :get handlers/hello :route-name :home]})))
-     ;;["/ws" :get [(routes/ws-interceptor (:input context) (:output context))] :route-name :ws]}))
+                    ["/" :get handlers/hello :route-name :home]
+                    ["/ws" :get ws/interceptor]})))
 
 (def system
   {:components [(web/factory default-routes)]})
