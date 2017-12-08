@@ -16,7 +16,12 @@
                     ["/ws" :get ws/interceptor]})))
 
 (def system
-  {:components [(web/factory default-routes)]})
+  {:components [(web/factory default-routes)
+                {:hcomp/name :system/output
+                 :hcomp/start-fn (fn [component]
+                                   (s/consume (hcomp/input component)
+                                              #(println "GOT: " %)))
+                 :hcomp/stop-fn (fn [component] component)}]})
 
 (defn main
   []
