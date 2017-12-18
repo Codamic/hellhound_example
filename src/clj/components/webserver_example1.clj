@@ -10,6 +10,7 @@
    [hellhound.http.handlers :as handlers]
    ;; HellHound's websocket namespace
    [hellhound.http.websocket :as ws]
+   [hellhound.http :as http]
    [manifold.stream :as s]))
 
 ;; The HTTP routes definitions
@@ -21,7 +22,7 @@
   (routes/router
    (routes/expand-routes
     #{{:host "localhost" :scheme :http :port 3000}
-      ["/" :get handlers/hello :route-name :home]
+      ["/" :get handlers/default-handler :route-name :home]
       ["/ws" :get (ws/interceptor-factory)]})))
 
 ;; System definition.
@@ -29,7 +30,7 @@
   {:components
    ;; Webserver component. The name of this component
    ;; would be `::hellhound.components.webserver/webserver`
-   [(web/factory default-routes)
+   [(web/factory http/default-routes)
     ;; A very simple component which relay messages
     ;; to its output while logging them.
     {::hcomp/name ::output
