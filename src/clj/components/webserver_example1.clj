@@ -4,32 +4,17 @@
    [hellhound.component :as hcomp]
    ;; HellHound's webserver component
    [hellhound.components.webserver :as web]
-   ;; HellHound's HTTP router
-   [hellhound.http.route :as routes]
-   ;; HellHound's HTTP handlers helper ns
-   [hellhound.http.handlers :as handlers]
-   ;; HellHound's websocket namespace
-   [hellhound.http.websocket :as ws]
    [hellhound.http :as http]
    [manifold.stream :as s]))
-
-;; The HTTP routes definitions
-;; Basically you need to provide a http router map to
-;; the `webserver` component. You can have any route
-;; you want but you have to make sure that you have
-;; the HellHound's websocket route in your router.
-(def default-routes
-  (routes/router
-   (routes/expand-routes
-    #{{:host "localhost" :scheme :http :port 3000}
-      ["/" :get handlers/default-handler :route-name :home]
-      ["/ws" :get (ws/interceptor-factory)]})))
 
 ;; System definition.
 (def system
   {:components
    ;; Webserver component. The name of this component
    ;; would be `::hellhound.components.webserver/webserver`
+   ;; We used `hellhound.http/default-routes` as the routes
+   ;; definition. But you can provide your own routes as long
+   ;; as it contains the hellhound websocket endpoint
    [(web/factory http/default-routes)
     ;; A very simple component which relay messages
     ;; to its output while logging them.
