@@ -2,8 +2,10 @@
   (:require
    [hellhound.system :as system]
    [hellhound.component :as hcomp]
-   ;; HellHound's webserver component
+   ;; HellHound's webserver component ns.
    [hellhound.components.webserver :as web]
+   ;; HellHound's transform component ns.
+   [hellhound.components.transform :as transform]
    [hellhound.http :as http]
    [manifold.stream :as s]))
 
@@ -16,18 +18,15 @@
    ;; definition. But you can provide your own routes as long
    ;; as it contains the hellhound websocket endpoint
    [(web/factory http/default-routes)
-    ;; A very simple component which relay messages
-    ;; to its output while logging them.
-    {::hcomp/name ::output
-     ::hcomp/start-fn (fn [component ctx]
-                        (s/consume
-                         (fn [msg]
-                           (println "RECEIVED: " msg)
-                           (s/put! (hcomp/output component) msg))
-                         (hcomp/input component))
-
-                        component)
-     ::hcomp/stop-fn (fn [component] component)}]
+    ;; Transform component is a very simple component which redirects
+    ;; incoming messages from input stream to output stream and applies
+    ;; the given function to each message.
+    ;;
+    ;; In this case we don't do any transformation. We just log the message.
+    (transform/factory ::output
+                       (fn [context msg]
+                         (println "RECEIVED: " msg)
+                         msg))]
 
    ;; A closed workflow. In this workflow the output of `::output`
    ;; component would be the input of `::web/webserver` component
