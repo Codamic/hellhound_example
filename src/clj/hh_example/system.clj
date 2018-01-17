@@ -1,8 +1,8 @@
 (ns hh-example.system
   (:require
-   [hellhound.http.route       :as router]
-   [hellhound.components.aleph :as aleph]))
+   [hellhound.http       :as http]
+   [hellhound.components.webserver :as webserver]))
 
 
 (def dev-system
-  {:components [(aleph/factory router/routes)]})
+  {:components [(webserver/factory http/default-routes)]})
