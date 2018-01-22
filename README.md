@@ -31,4 +31,4 @@ Please open an issue if you found any bug in the examples or have any question.
 
 Copyright © 2016-2018 Sameer Rahmani <[@lxsameer](//twitter.com/lxsameer)>.
 
-Distributed under the MIT License.
+Distributed under the EPL-1.0 License.
