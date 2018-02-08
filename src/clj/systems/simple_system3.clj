@@ -25,6 +25,7 @@
 ;; map.
 (defn stop-fn
   [component]
+  (println "Stopping")
   component)
 
 ;; Start function of component-2.
@@ -47,9 +48,9 @@
 ;; to each other using a workflow catalog is a different story from component
 ;; dependencies. We only need to define a component as a dependency if the second
 ;; component use the first one directly in its start or stop function.
-(def component-1 (defcomponent :simple-system/component-1 start-fn1 stop-fn))
-(def component-2 (defcomponent :simple-system/component-2 start-fn2 stop-fn))
-(def component-3 (defcomponent :simple-system/component-3 start-fn3 stop-fn))
+(def component-1 (defcomponent ::component-1 start-fn1 stop-fn))
+(def component-2 (defcomponent ::component-2 start-fn2 stop-fn))
+(def component-3 (defcomponent ::component-3 start-fn3 stop-fn))
 
 ;; Defines a system with a linear workflow. In this case **HellHound** starts all
 ;; the components in the system and then wires up components IO based on the
@@ -61,8 +62,8 @@
 ;; Component 3 don't have any output stream. But it can have one.
 (def simple-system
   {:components [component-2 component-1 component-3]
-   :workflow [[:simple-system/component-1 odd? :simple-system/component-2]
-              [:simple-system/component-1 even? :simple-system/component-3]]})
+   :workflow [[::component-1 odd? ::component-2]
+              [::component-1 even? ::component-3]]})
 
 ;; The main function of this namespace. You can run this
 ;; example by issuing following command:
@@ -75,8 +76,8 @@
   ;; Start the default system
   (system/start!)
 
-  ;; Gets a component with the name from the default system.
-  (let [component1 (system/get-component :simple-system/component-1)
+  ;; Gets a compone1nt with the name from the default system.
+  (let [component1 (system/get-component ::component-1)
         ;; Gets the input of the component1
         input      (hcomp/input component1)]
 
@@ -84,5 +85,9 @@
         ;; Converts the vector to a stream source
         (s/->source)
         ;; Connects the stream source to the input of component1
-        (s/connect input)))
-  (println "Done."))
+        (s/connect input))
+    ;; (println "xczczxc")
+    ;; (println component1)
+    ;; (println input)
+    (Thread/sleep 3000)
+    (println "Done.")))
