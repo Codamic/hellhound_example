@@ -3,7 +3,7 @@
    [manifold.stream :as stream]
    [hellhound.component :as hcomp]
    [aleph.http :as http]
-   [hellhound.system :refer [defcomponent]]
+   [hellhound.system :refer [make-component]]
    [manifold.deferred :as d]))
 
 (defn response
@@ -36,4 +36,4 @@
 
 (defn factory
   [host]
-  (defcomponent ::job (start host) stop))
+  (make-component ::job (start host) stop))

@@ -3,7 +3,7 @@
             [hellhound.component :as hcomp]
             [manifold.stream :as stream]
             [manifold.deferred :as d]
-            [hellhound.system :refer [defcomponent]]))
+            [hellhound.system :refer [make-component]]))
 
 (defn handler
   [input output]
@@ -57,4 +57,4 @@
 
 (defn ->response-factory
   []
-  (defcomponent ::->response ->response #(identity %)))
+  (make-component ::->response ->response #(identity %)))

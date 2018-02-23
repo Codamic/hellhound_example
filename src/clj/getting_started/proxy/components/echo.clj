@@ -2,7 +2,7 @@
   (:require
    [manifold.stream :as stream]
    [hellhound.component :as hcomp]
-   [hellhound.system :refer [defcomponent]]))
+   [hellhound.system :refer [make-component]]))
 
 (defn response
   [body]
@@ -27,4 +27,4 @@
 
 (defn factory
   []
-  (defcomponent ::thread start! stop))
+  (make-component ::thread start! stop))
