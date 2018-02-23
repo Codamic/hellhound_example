@@ -1,7 +1,7 @@
 (ns systems.simple-system3
   (:require
    [manifold.stream :as s]
-   [hellhound.system :as system :refer [make-component]]
+   [hellhound.system :as system]
    [hellhound.component :as hcomp]))
 
 ;; The start function of the component 1 which will assign
@@ -48,9 +48,9 @@
 ;; to each other using a workflow catalog is a different story from component
 ;; dependencies. We only need to define a component as a dependency if the second
 ;; component use the first one directly in its start or stop function.
-(def component-1 (make-component ::component-1 start-fn1 stop-fn))
-(def component-2 (make-component ::component-2 start-fn2 stop-fn))
-(def component-3 (make-component ::component-3 start-fn3 stop-fn))
+(def component-1 (hcomp/make-component ::component-1 start-fn1 stop-fn))
+(def component-2 (hcomp/make-component ::component-2 start-fn2 stop-fn))
+(def component-3 (hcomp/make-component ::component-3 start-fn3 stop-fn))
 
 ;; Defines a system with a linear workflow. In this case **HellHound** starts all
 ;; the components in the system and then wires up components IO based on the

@@ -1,8 +1,8 @@
 (ns getting-started.proxy.components.echo
   (:require
    [manifold.stream :as stream]
-   [hellhound.component :as hcomp]
-   [hellhound.system :refer [make-component]]))
+   [hellhound.component :as hcomp]))
+
 
 (defn response
   [body]
@@ -27,4 +27,4 @@
 
 (defn factory
   []
-  (make-component ::thread start! stop))
+  (hcomp/make-component ::thread start! stop))

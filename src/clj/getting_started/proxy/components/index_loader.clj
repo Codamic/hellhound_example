@@ -1,8 +1,8 @@
 (ns getting-started.proxy.components.index-loader
   (:require
    [manifold.stream :as stream]
-   [hellhound.component :as hcomp]
-   [hellhound.system :refer [make-component]]))
+   [hellhound.component :as hcomp]))
+
 
 (defn response
   [body]
@@ -30,4 +30,4 @@
 
 (defn factory
   []
-  (make-component ::job start! stop))
+  (hcomp/make-component ::job start! stop))

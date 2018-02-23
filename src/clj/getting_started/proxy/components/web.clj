@@ -2,8 +2,8 @@
   (:require [aleph.http :as http]
             [hellhound.component :as hcomp]
             [manifold.stream :as stream]
-            [manifold.deferred :as d]
-            [hellhound.system :refer [make-component]]))
+            [manifold.deferred :as d]))
+
 
 (defn handler
   [input output]
@@ -57,4 +57,4 @@
 
 (defn ->response-factory
   []
-  (make-component ::->response ->response #(identity %)))
+  (hcomp/make-component ::->response ->response #(identity %)))

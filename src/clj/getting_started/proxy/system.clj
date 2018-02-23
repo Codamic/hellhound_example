@@ -1,6 +1,6 @@
 (ns getting-started.proxy.system
   (:require
-   [hellhound.system :as hh-system :refer [make-component]]
+   [hellhound.system :as hh-system]
    [hellhound.component :as hcomp]
    [getting-started.proxy.components.web :as web]
    [getting-started.proxy.components.crawler :as crawler]

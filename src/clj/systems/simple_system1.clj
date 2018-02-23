@@ -1,5 +1,6 @@
 (ns systems.simple-system1
-  (:require [hellhound.system :as system :refer [make-component]]))
+  (:require [hellhound.system :as system]
+            [hellhound.component :as hcomp]))
 
 ;; The start function of the component 1 which will assign
 ;; to the component later in the component map.
@@ -52,7 +53,7 @@
 ;; It basically returns a map like we had in component-1 with the given details.
 ;; Note: the last argument is the dependency vector of the component that exactly is
 ;; going to be the `:depends-on` key in the component map.
-(def component-2 (make-component :simple-system/component-2 start-fn2 stop-fn2 [:simple-system/component-1]))
+(def component-2 (hcomp/make-component :simple-system/component-2 start-fn2 stop-fn2 [:simple-system/component-1]))
 
 ;; A very simple `system` defination which does not have any workflow.
 ;; Please not that the order of components in `:components` vector is
