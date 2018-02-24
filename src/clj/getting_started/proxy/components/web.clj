@@ -1,60 +1,40 @@
-(ns getting-started.proxy.components.web
-  (:require [aleph.http :as http]
+(ns getting-started.proxy.components.web ;; <1>
+  (:require [aleph.http :as http]   ;; <2>
             [hellhound.component :as hcomp]
-            [manifold.stream :as stream]
-            [manifold.deferred :as d]))
+            [manifold.stream :as stream]  ;; <3>
+            [manifold.deferred :as d])) ;; <4>
 
 
-(defn handler
+(defn handler       ;; <5>
   [input output]
-  (stream/consume #(d/success!
+  (stream/consume #(d/success!     ;; <6>
                     (:response-deferred %)
                     (:response %))
                   input)
-  (fn [req]
-    (let [response (d/deferred)]
-      (stream/put! output {:request req
+  (fn [req]               ;; <7>
+    (let [response (d/deferred)]     ;; <8>
+      (stream/put! output {:request req    ;; <9>
                            :response-deferred response})
       response)))
 
-(defn start!
+(defn start!   ;; <10>
   [port]
   (fn [this context]
-    (let [[input output] (hcomp/io this)]
+    (let [[input output] (hcomp/io this)]    ;; <11>
       (assoc this
              :server
-             (http/start-server (handler input output) {:port port})))))
+             (http/start-server (handler input output) {:port port})))))   ;; <12>
 
-(defn stop!
+(defn stop!  ;; <13>
   "Stops the running webserver server."
   [this]
   (if (:server this)
     (do
-      (.close (:server this))
-      (dissoc this :server))
+      (.close (:server this))    ;; <14>
+      (dissoc this :server))     ;; <15>
     this))
 
 
 (defn factory
-  [{:keys [port] :as config}]
-  {:hellhound.component/name ::server
-   :hellhound.component/start-fn (start! port)
-   :hellhound.component/stop-fn stop!})
-
-(defn make-response
-  [output]
-  (fn [{:keys [index-content] :as event}]
-    (stream/put! output
-                 (assoc event :response {:body index-content
-                                         :headers []
-                                         :status 200}))))
-
-(defn ->response
-  [this context]
-  (let [[input output] (hcomp/io this)]
-    (stream/consume (make-response output) input)
-    this))
-
-(defn ->response-factory
-  []
-  (hcomp/make-component ::->response ->response #(identity %)))
+  [{:keys [port] :as config}] ;; <16>
+  (hcomp/make-component ::server (start! port) stop!)) ;; <17>
