@@ -29,7 +29,7 @@
                           :response
                           (fetch-url url))))))   ;; <6>
 
-(defn start    ;; <7>
+(defn start
   [host]
   (fn [this context]
     (let [[input output] (component/io this)]     ;; <7>
