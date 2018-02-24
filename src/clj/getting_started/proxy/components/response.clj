@@ -1,5 +1,5 @@
 (ns getting-started.proxy.components.response
-  (:require [hellhound.component :as hcomp]
+  (:require [hellhound.component :as component]
             [manifold.stream :as stream]))
 
 
@@ -13,10 +13,10 @@
 
 (defn ->response
   [this context]
-  (let [[input output] (hcomp/io this)]
+  (let [[input output] (component/io this)]
     (stream/consume (make-response output) input)
     this))
 
 (defn ->response-factory
   []
-  (hcomp/make-component ::->response ->response #(identity %)))
+  (component/make-component ::->response ->response #(identity %))) ;; <1>
