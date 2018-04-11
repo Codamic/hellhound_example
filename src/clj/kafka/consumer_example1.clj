@@ -3,17 +3,17 @@
    [hellhound.components.kafka-consumer :as kafka-consumer]
    [hellhound.component :as component]
    [hellhound.system :as system]
+   [hellhound.logger :as logger]
    [manifold.stream :as s]))
 
 (def kconfig {"bootstrap.servers" "localhost:9092"
               "group.id"          "test"})
 
-
 (defn print-start
   [this context]
   (let [[in out] (component/io this)]
-    (s/consume #(fn [record]
-                  (println "Got a Record:")
+    (s/consume (fn [record]
+                  (logger/info "Got a Record:")
                   (println record))
                in))
   this)
